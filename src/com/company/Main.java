@@ -6,24 +6,26 @@ public class Main {
 
     public static void main(String[] args) {
 
-
+        Scanner scanner = new Scanner(System.in);
 
         BankAccount account = new BankAccount();
-        System.out.println("Your deposit: "+account.deposit(20000));
+        account.deposit(20000);
 
-        Scanner scanner = new Scanner(System.in);
-        int count = scanner.nextInt();
-
-
+        while (true){
+            System.out.println("Current balance: "+account.getAmount());
+            System.out.println("Enter amount:");
+            int requestCount = scanner.nextInt();
             try {
-                for (int i = 20000; i > 0; i=i-count){
-                    System.out.println(i);
-                    System.out.println("Withdrawing: "+account.withDraw(scanner.nextInt()));
-                    if (i < 6000) break;
-                }
+                account.withDraw(requestCount);
             }
             catch (LimitException e) {
-                System.out.println(e.getMessage());
+                System.out.println(e.getMessage()+e.getRemainingAmount());
+                if (account.getAmount() > 0){
+                    System.out.println("Withdrawal: "+e.getRemainingAmount());
+                    System.out.println(+e.getRemainingAmount() - account.amount);
+                }
+                break;
             }
+        }
     }
 }

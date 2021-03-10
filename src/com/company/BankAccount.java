@@ -1,7 +1,6 @@
 package com.company;
 
 public class BankAccount {
-    LimitException limit = new LimitException("Limit");
 
     double amount;
 
@@ -9,14 +8,16 @@ public class BankAccount {
         return amount;
     }
     public double deposit(double sum){
-        return sum;
+        amount += sum;
+        return amount;
     }
-    public int withDraw(int sum) throws LimitException {
-
-        if (sum < 6000){
-            throw new LimitException("Not enough money!");
+    public double withDraw(int sum) throws LimitException {
+        if(sum <= amount){
+            amount -= sum;
+        } else if (amount < sum){
+            throw new LimitException("Not enough money! Current balance: ", amount);
         }
-        return sum;
+        return amount;
 
     }
 }
